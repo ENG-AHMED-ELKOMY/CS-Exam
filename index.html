@@ -1,567 +1,806 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنصة الشاملة - امتحانات علوم الحاسب (2021-2025)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Minia University - COMP101 Final Exam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #003366;
-            --gold: #b9925b;
-            --bg: #f0f2f5;
-            --white: #ffffff;
-            --dark: #2d3436;
-            --success: #27ae60;
-            --danger: #c0392b;
-            --code-bg: #282c34;
+            --primary: #003366; /* Deep Blue */
+            --secondary: #b9925b; /* Gold */
+            --bg: #e0e5ec;
+            --text-main: #2d3436;
+            --text-light: #636e72;
+            --success: #00b894;
+            --error: #d63031;
+            
+            /* Neumorphism Shadows */
+            --shadow-light: -9px -9px 16px rgba(255, 255, 255, 0.8);
+            --shadow-dark: 9px 9px 16px rgba(163, 177, 198, 0.6);
+            --inner-shadow: inset 6px 6px 10px 0 rgba(163, 177, 198, 0.7), 
+                            inset -6px -6px 10px 0 rgba(255, 255, 255, 0.8);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background-color: var(--bg);
-            color: var(--dark);
-            padding-bottom: 60px;
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 50px;
         }
 
-        /* --- Header --- */
+        /* RTL Class for Arabic Mode */
+        .rtl-mode {
+            direction: rtl;
+            text-align: right;
+            font-family: 'Cairo', sans-serif !important;
+        }
+
+        /* Header */
         header {
-            background: linear-gradient(135deg, var(--primary) 0%, #1a252f 100%);
-            color: var(--white);
-            padding: 40px 20px;
+            background-color: var(--bg);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: var(--shadow-dark);
             text-align: center;
-            border-bottom: 6px solid var(--gold);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .uni-brand h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .uni-brand h2 {
+            color: var(--secondary);
+            font-size: 1rem;
+            font-weight: 600;
         }
 
         .user-tag {
-            background: rgba(255,255,255,0.15);
-            padding: 5px 20px;
-            border-radius: 50px;
-            font-size: 0.95rem;
-            margin-bottom: 15px;
             display: inline-block;
-            border: 1px solid rgba(185, 146, 91, 0.5);
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: var(--bg);
+            border-radius: 50px;
+            box-shadow: var(--shadow-dark), var(--shadow-light);
+            color: var(--primary);
+            font-weight: 700;
         }
 
-        h1 { font-weight: 900; font-size: 1.8rem; margin-bottom: 5px; }
-
-        /* --- Stats Tabs --- */
-        .tabs-container {
+        /* Stats Bar */
+        .stats-bar {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: -30px auto 30px;
-            max-width: 900px;
-            padding: 0 15px;
-            position: relative;
-            z-index: 10;
+            justify-content: space-around;
+            max-width: 800px;
+            margin: 20px auto;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .tab {
-            flex: 1;
-            background: var(--white);
-            padding: 20px;
-            border-radius: 16px;
+        .stat-card {
+            background: var(--bg);
+            padding: 15px 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-dark), var(--shadow-light);
             text-align: center;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: 2px solid transparent;
+            min-width: 150px;
         }
 
-        .tab:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        
-        .tab.active { 
-            border-color: var(--gold); 
-            background: #fffcf5; 
-            transform: scale(1.02);
+        .stat-card span {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-light);
         }
 
-        .tab h3 { font-size: 1.2rem; margin: 10px 0 5px; }
-        .tab p { color: #7f8c8d; font-size: 0.9rem; }
-        .badge { background: var(--primary); color: #fff; padding: 2px 10px; border-radius: 10px; font-size: 0.8rem; }
+        .stat-card strong {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
 
-        /* --- Content --- */
-        .container { max-width: 900px; margin: 0 auto; padding: 0 15px; }
-        .section { display: none; animation: slideUp 0.5s ease; }
-        .section.active { display: block; }
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .section-title {
+            color: var(--primary);
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: inline-block;
+        }
 
-        /* --- Question Card --- */
+        /* Question Cards */
         .q-card {
-            background: var(--white);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            border-right: 5px solid var(--primary);
+            background: var(--bg);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-dark), var(--shadow-light);
             transition: transform 0.2s;
         }
 
-        .q-card:hover { transform: translateX(-5px); }
-
-        .q-meta {
+        .q-header {
             display: flex;
             justify-content: space-between;
-            background: #f8f9fa;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            color: #636e72;
+            align-items: center;
             margin-bottom: 15px;
         }
 
-        .repeat-tag {
-            background: #ffeaa7; color: #d35400; padding: 3px 10px; border-radius: 6px; font-weight: bold;
-            display: flex; align-items: center; gap: 5px;
+        .q-badge {
+            background: var(--primary);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
         }
 
-        .q-content {
-            font-size: 1.15rem;
-            font-weight: 700;
+        .translate-btn {
+            background: var(--bg);
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 12px;
+            box-shadow: 3px 3px 6px rgba(163, 177, 198, 0.6), 
+                       -3px -3px 6px rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+        }
+
+        .translate-btn:hover {
+            transform: translateY(-2px);
+            color: var(--secondary);
+        }
+
+        .translate-btn:active {
+            box-shadow: var(--inner-shadow);
+            transform: translateY(0);
+        }
+
+        .q-text {
+            font-size: 1.1rem;
+            font-weight: 600;
             margin-bottom: 20px;
-            line-height: 1.6;
-            direction: ltr; text-align: left;
         }
 
-        .q-content.ar { direction: rtl; text-align: right; color: var(--primary); font-family: 'Cairo', sans-serif; display: none; }
-
-        /* Code Snippets */
         pre {
-            background: var(--code-bg); color: #abb2bf;
-            padding: 15px; border-radius: 8px;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.9rem; overflow-x: auto;
-            direction: ltr; text-align: left;
-            margin: 10px 0; border-left: 3px solid var(--gold);
-        }
-        
-        code { background: #eee; padding: 2px 5px; border-radius: 4px; font-family: 'Fira Code', monospace; color: #c7254e; }
-
-        /* Options */
-        .options-box { display: grid; gap: 10px; direction: ltr; }
-        
-        .opt-btn {
-            padding: 12px 15px;
-            background: #fff; border: 2px solid #e1e1e1;
-            border-radius: 10px; text-align: left;
-            font-size: 1rem; cursor: pointer;
-            transition: 0.2s; font-family: 'Segoe UI', sans-serif;
+            background: #eef2f5;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary);
+            font-family: 'Consolas', monospace;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05);
+            font-size: 0.95rem;
+            direction: ltr !important;
+            text-align: left !important;
         }
 
-        .opt-btn:hover { border-color: var(--primary); background: #f7f9fc; }
-        
-        .opt-btn.correct { background: var(--success); color: white; border-color: var(--success); }
-        .opt-btn.wrong { background: var(--danger); color: white; border-color: var(--danger); }
-
-        /* Actions */
-        .actions {
-            margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;
-            display: flex; gap: 10px;
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
         }
 
-        .act-btn {
-            border: none; background: #f1f2f6;
-            padding: 8px 16px; border-radius: 8px;
-            cursor: pointer; font-family: 'Cairo', sans-serif; font-weight: 600;
-            display: flex; align-items: center; gap: 6px; transition: 0.2s;
+        @media (min-width: 600px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
-        .act-btn:hover { background: #dfe4ea; }
-        .btn-exp { color: var(--primary); }
-        .btn-trans { color: var(--gold); }
-
-        .explanation {
-            display: none; margin-top: 15px; padding: 15px;
-            background: #e1f5fe; border-radius: 8px;
-            border-right: 4px solid #03a9f4;
-            direction: ltr; font-size: 0.95rem;
+        .option-btn {
+            background: var(--bg);
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            color: var(--text-main);
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: left;
+            box-shadow: var(--shadow-dark), var(--shadow-light);
+            transition: all 0.2s ease;
+            position: relative;
+            outline: none;
         }
 
-        /* Filter Badges in Unique Section */
-        .filter-years {
-            text-align: center; margin-bottom: 20px;
+        .option-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
         }
-        .year-filter {
-            background: white; border: 1px solid #ddd; padding: 5px 15px;
-            border-radius: 20px; cursor: pointer; margin: 0 5px; font-size: 0.8rem;
+
+        .option-btn:active:not(:disabled) {
+            box-shadow: var(--inner-shadow);
+            transform: translateY(0);
         }
-        .year-filter.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .option-btn.correct {
+            background-color: var(--success);
+            color: white;
+            box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2);
+        }
+
+        .option-btn.wrong {
+            background-color: var(--error);
+            color: white;
+            box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2);
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        /* Explanation */
+        .explanation-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            background: #eef2f5;
+            border-left: 4px solid var(--success);
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .toggle-exp-btn {
+            background: transparent;
+            border: none;
+            color: var(--secondary);
+            margin-top: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            visibility: hidden;
+        }
+
+        /* Written Section */
+        .written-area textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border-radius: 15px;
+            border: none;
+            background: var(--bg);
+            box-shadow: var(--inner-shadow);
+            margin-bottom: 20px;
+            font-family: 'Segoe UI', sans-serif;
+            resize: vertical;
+            outline: none;
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 5px 5px 10px rgba(0,51,102,0.3);
+            transition: transform 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .model-answer {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            background: white;
+            border: 1px solid #ddd;
+            display: none;
+        }
 
     </style>
 </head>
 <body>
 
-<header>
-    <div class="user-tag"><i class="fas fa-user-graduate"></i> Eng. Ahmed Anwar (ABO ANWER)</div>
-    <h1>المنصة الشاملة لتحليل امتحانات علوم الحاسب</h1>
-    <p>جميع الأسئلة من 2021 وحتى 2025 في مكان واحد</p>
-</header>
-
-<div class="tabs-container">
-    <div class="tab active" onclick="showSection('repeated')">
-        <div style="font-size: 2rem; color: #d35400; margin-bottom: 10px;"><i class="fas fa-fire-alt"></i></div>
-        <h3>الأسئلة المتكررة</h3>
-        <p>الأسئلة المضمونة (ظهرت في كذا سنة)</p>
-        <span class="badge" id="badge-rep">0</span>
-    </div>
-    <div class="tab" onclick="showSection('unique')">
-        <div style="font-size: 2rem; color: #2980b9; margin-bottom: 10px;"><i class="fas fa-layer-group"></i></div>
-        <h3>بنك الأسئلة الشامل</h3>
-        <p>باقي الأسئلة (سنة بسنة)</p>
-        <span class="badge" id="badge-uniq">0</span>
-    </div>
-</div>
-
-<div class="container">
-    
-    <div id="sec-repeated" class="section active">
-        <div class="q-card" style="background: #fff8e1; border:none; text-align:center;">
-            <i class="fas fa-star"></i> <strong>هام جداً:</strong> الأسئلة دي حفظ صم، لأنها بتتكرر بالنص.
+    <header>
+        <div class="uni-brand">
+            <h1>MINIA UNIVERSITY</h1>
+            <h2>Faculty of Science - Computer Science Dept.</h2>
+            <h2>Computer (1) Final Exam | 2024/2025</h2>
         </div>
-        <div id="list-repeated"></div>
-    </div>
-
-    <div id="sec-unique" class="section">
-        <div class="filter-years">
-            <span class="year-filter active" onclick="filterYear('all')">الكل</span>
-            <span class="year-filter" onclick="filterYear('2021')">2021-22</span>
-            <span class="year-filter" onclick="filterYear('2022')">2022-23</span>
-            <span class="year-filter" onclick="filterYear('2023')">2023-24</span>
+        <div class="user-tag">
+            👋 Welcome, Eng. Ahmed Anwar (ABO ANWER)
         </div>
-        <div id="list-unique"></div>
+    </header>
+
+    <div class="stats-bar">
+        <div class="stat-card">
+            <span>Progress</span>
+            <strong id="progress-text">0 / 25</strong>
+        </div>
+        <div class="stat-card">
+            <span>Score</span>
+            <strong id="score-text">0%</strong>
+        </div>
     </div>
 
-</div>
-
-<script>
-    // --- 1. THE MASTER DATABASE (All Questions from all chats) ---
-    const db = [
-        // --- REPEATED QUESTIONS (High Priority) ---
-        {
-            txt: "Scanner is an example of input units.",
-            ar: "الماسح الضوئي هو وحدة إدخال.",
-            type: "TF", ans: true,
-            exp: "True. Scanners digits physical docs to digital data.",
-            years: ["2021", "2023", "2024"]
-        },
-        {
-            txt: "3 MB = 0.29 GB",
-            ar: "3 ميجا تساوي 0.29 جيجا.",
-            type: "TF", ans: false,
-            exp: "False. 3MB / 1024 = 0.0029 GB.",
-            years: ["2022", "2023"]
-        },
-        {
-            txt: "The 2's Complement of 19 is 01101 (5 bits).",
-            ar: "المكمل الثاني للرقم 19 هو 01101.",
-            type: "TF", ans: true,
-            exp: "True. 19(10011) -> 1's(01100) -> +1 -> (01101).",
-            years: ["2022", "2023"]
-        },
-        {
-            txt: "A bit in computer terminology means either 0 or 1.",
-            ar: "البت يعني 0 أو 1.",
-            type: "TF", ans: true,
-            exp: "True. Bit = Binary Digit.",
-            years: ["2022", "2023"]
-        },
-        {
-            txt: "Addition: 117 + 95 is equivalent to binary 11010100.",
-            ar: "مجموع 117 + 95 يساوي 11010100 ثنائياً.",
-            type: "TF", ans: true,
-            exp: "True. Sum is 212.",
-            years: ["2022", "2023"]
-        },
-        {
-            txt: "We can use a single switch case label to test a range (e.g. 2-4).",
-            ar: "يمكن استخدام switch case لاختبار مدى (2-4).",
-            type: "TF", ans: false,
-            exp: "False. Standard C++ does not support ranges in switch.",
-            years: ["2022", "2023"]
-        },
-        {
-            txt: "An algorithm is a diagram that depicts the flow.",
-            ar: "الخوارزمية هي رسم تخطيطي.",
-            type: "TF", ans: false,
-            exp: "False. That is a Flowchart.",
-            years: ["2021", "2023"]
-        },
-        {
-            txt: "Desktop computer is designed to be carried around.",
-            ar: "الكمبيوتر المكتبي مصمم للحمل.",
-            type: "TF", ans: false,
-            exp: "False. That is a Laptop.",
-            years: ["2022", "2023"]
-        },
-
-        // --- 2021 UNIQUE ---
-        {
-            txt: "The software which startup the computer is operating system.",
-            ar: "البرنامج الذي يبدأ الكمبيوتر هو نظام التشغيل.",
-            type: "TF", ans: true,
-            exp: "True.",
-            years: ["2021"]
-        },
-        {
-            txt: "16 bits are equivalent to one byte.",
-            ar: "16 بت تساوي بايت واحد.",
-            type: "TF", ans: false,
-            exp: "False. 1 Byte = 8 Bits.",
-            years: ["2021"]
-        },
-        {
-            txt: "ROM is volatile memory.",
-            ar: "الروم ذاكرة متطايرة.",
-            type: "TF", ans: false,
-            exp: "False. ROM is non-volatile.",
-            years: ["2021"]
-        },
-        {
-            txt: "Find Syntax Error:\nint hours = 12; cout << hours",
-            ar: "أوجد الخطأ في الكود.",
-            type: "MCQ", options: ["Missing Semicolon", "Runtime Error", "No Error"], ans: 0,
-            exp: "Missing ';' at the end.",
-            years: ["2021"]
-        },
-        {
-            txt: "Find Syntax Error:\nint x=5 y r-2=10;",
-            ar: "أوجد الخطأ.",
-            type: "MCQ", options: ["Variable Names & Commas", "Logic Error", "None"], ans: 0,
-            exp: "Missing comma between x, y. 'r-2' is invalid name.",
-            years: ["2021"]
-        },
-        {
-            txt: "Convert (75)10 to Binary.",
-            ar: "حول 75 لعشري.",
-            type: "Written", ans: "1001011",
-            exp: "64+8+2+1 = 75.",
-            years: ["2021"]
-        },
-        {
-            txt: "Write C++ to convert Celsius to Fahrenheit.",
-            ar: "كود تحويل الحرارة.",
-            type: "Code",
-            exp: "F = (9.0/5.0)*C + 32;",
-            years: ["2021"]
-        },
-
-        // --- 2022 UNIQUE ---
-        {
-            txt: "Boolean Logic: 'cat height and dog height are not 10'.",
-            ar: "منطق: طول القطة والكلب ليس 10.",
-            type: "MCQ", options: ["!(c==10) || !(d==10)", "(c!=10) && (d!=10)", "None"], ans: 1,
-            exp: "AND operator with Not Equal.",
-            years: ["2022"]
-        },
-        {
-            txt: "Value of x?\nx = 3.0/4.0 + 5 - 3/4;",
-            ar: "ما قيمة x؟",
-            type: "MCQ", options: ["5.75", "5.0", "6.0"], ans: 0,
-            exp: "0.75 + 5 - 0 = 5.75",
-            years: ["2022"]
-        },
-        {
-            txt: "Output of switch without break:\ncase 1: 'One'; case 2: 'Two'; ...",
-            ar: "ناتج switch بدون break.",
-            type: "MCQ", options: ["One", "OneTwo", "OneTwoThree"], ans: 2,
-            exp: "Fallthrough occurs.",
-            years: ["2022"]
-        },
-        {
-            txt: "To execute C++ program, translate source to object code. Called?",
-            ar: "تحويل الكود المصدري لكود آلة يسمى؟",
-            type: "MCQ", options: ["Compiling", "Linking", "Loading"], ans: 0,
-            exp: "Compiling.",
-            years: ["2022"]
-        },
-        {
-            txt: "Write BMI Calculator Program.",
-            ar: "برنامج حساب BMI.",
-            type: "Code",
-            exp: "BMI = Weight / (Height * Height)",
-            years: ["2022"]
-        },
-
-        // --- 2023-2024 UNIQUE ---
-        {
-            txt: "Output?\nint x=5; if(++x > 5) cout << x;",
-            ar: "ما الناتج؟",
-            type: "MCQ", options: ["5", "6", "Error"], ans: 1,
-            exp: "Pre-increment makes x=6. 6>5 is True. Print 6.",
-            years: ["2023"]
-        },
-        {
-            txt: "Completeness in data refers to capturing only relevant info.",
-            ar: "الاكتمال يعني أخذ المهم فقط.",
-            type: "TF", ans: false,
-            exp: "False. That is Relevance.",
-            years: ["2023"]
-        },
-        {
-            txt: "Write program for 5% bonus if years > 5.",
-            ar: "برنامج بونص 5%.",
-            type: "Code",
-            exp: "if(years>5) bonus = salary * 0.05;",
-            years: ["2023"]
-        },
-        {
-            txt: "Rewrite if/else using switch (i%3 logic).",
-            ar: "أعد كتابة if بـ switch.",
-            type: "Code",
-            exp: "switch(i%3) { case 0: ... }",
-            years: ["2023"]
-        },
-        {
-            txt: "Value of x?\nint x=10; int y = x-- * 2 + x;",
-            ar: "قيمة x و y؟",
-            type: "MCQ", options: ["x=9 y=29", "x=9 y=20"], ans: 0,
-            exp: "y = 10 * 2 + 9 = 29. x becomes 9.",
-            years: ["2023"]
-        }
-    ];
-
-    // --- 2. RENDER FUNCTIONS ---
-    function init() {
-        renderList(db.filter(q => q.years.length > 1), 'list-repeated');
-        renderList(db.filter(q => q.years.length === 1), 'list-unique');
+    <div class="container">
         
-        document.getElementById('badge-rep').innerText = db.filter(q => q.years.length > 1).length;
-        document.getElementById('badge-uniq').innerText = db.filter(q => q.years.length === 1).length;
-    }
+        <h3 class="section-title">Part I: Multiple Choice Questions</h3>
+        <div id="quiz-container">
+            </div>
 
-    function renderList(data, containerId) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = '';
-
-        data.forEach((q, idx) => {
-            const card = document.createElement('div');
-            card.className = 'q-card';
-            card.dataset.year = q.years[0]; // For filtering
-
-            // Meta
-            let yearsHtml = q.years.map(y => `<span style="background:#eee; padding:2px 6px; border-radius:4px; font-size:0.8rem">${y}</span>`).join(' ');
-            let meta = `<div class="q-meta">
-                            <span><i class="fas fa-tag"></i> ${q.type}</span>
-                            <span>${yearsHtml}</span>
-                        </div>`;
+        <h3 class="section-title">Part II: Code Correction & Analysis</h3>
+        <div class="q-card">
+            <div class="q-header">
+                <span class="q-badge">Written</span>
+            </div>
+            <div class="q-text">
+                Analyze the following C++ code snippet. It contains multiple syntax and logic errors. Rewrite the correct version of the code in the box below.
+            </div>
+            <pre><code>int x=10.2 y=z0,    // Line 1
+int x=x+y           // Line 2
+if(z=f)             // Line 3
+Cout <<"Zero";      // Line 4
+int s-20+10;        // Line 5</code></pre>
             
-            if(q.years.length > 1) meta += `<div class="repeat-tag" style="margin-bottom:10px; width:fit-content"><i class="fas fa-fire"></i> تكرر ${q.years.length} مرات</div>`;
+            <div class="written-area">
+                <textarea placeholder="Type your corrected code here..."></textarea>
+                <button class="action-btn" onclick="toggleModelAnswer()">Show Model Answer</button>
+            </div>
 
-            // Content
-            let content = `<div class="q-content en" id="en-${containerId}-${idx}">
-                                ${q.txt.includes('\n') ? `<pre>${q.txt}</pre>` : q.txt}
-                           </div>
-                           <div class="q-content ar" id="ar-${containerId}-${idx}">${q.ar}</div>`;
+            <div id="model-answer-box" class="model-answer">
+                <h4>Model Answer:</h4>
+                <pre><code>int x = 10;
+int y = 0; // Assuming value
+x = x + y; 
+if (x == 0) {
+    cout << "Zero";
+}
+int s = 20 + 10;</code></pre>
+            </div>
+        </div>
 
-            // Interaction
-            let interact = '';
-            if(q.type === 'TF') {
-                interact = `<div class="options-box" style="grid-template-columns: 1fr 1fr">
-                                <button class="opt-btn" onclick="check(this, ${q.ans})">True</button>
-                                <button class="opt-btn" onclick="check(this, ${!q.ans})">False</button>
-                            </div>`;
-            } else if (q.type === 'MCQ') {
-                interact = `<div class="options-box">`;
+    </div>
+
+    <script>
+        // --- 1. Data Structure with Arabic Support (Including Explanations) ---
+        const questions = [
+            {
+                id: 1,
+                text: "Which of the following is NOT a function of the Input Unit?",
+                text_ar: "أي مما يلي ليس من وظائف وحدة الإدخال؟",
+                options: [
+                    "It transforms data into a format understandable by users.",
+                    "It converts the data into computer acceptable format.",
+                    "It reads instructions and data from external sources.",
+                    "It supplies data and instructions to the computer for processing."
+                ],
+                options_ar: [
+                    "تحويل البيانات إلى تنسيق مفهوم للمستخدمين.",
+                    "تحويل البيانات إلى تنسيق مقبول للحاسوب.",
+                    "قراءة التعليمات والبيانات من المصادر الخارجية.",
+                    "تزويد الحاسوب بالبيانات والتعليمات للمعالجة."
+                ],
+                correct: 0,
+                explanation: "Transforming data into a human-understandable format is the job of the Output Unit, not the Input Unit.",
+                explanation_ar: "تحويل البيانات إلى تنسيق مفهوم للبشر هو وظيفة وحدة الإخراج (Output Unit)، وليس وحدة الإدخال."
+            },
+            {
+                id: 2,
+                text: "A variable is/are...",
+                text_ar: "المتغير (Variable) هو...",
+                options: [
+                    "A memory segment for storing a determined value",
+                    "Numbers commonly used in programs",
+                    "A string that changes during program execution",
+                    "None of these"
+                ],
+                options_ar: [
+                    "جزء من الذاكرة لتخزين قيمة محددة",
+                    "أرقام تستخدم عادة في البرامج",
+                    "نص يتغير أثناء تنفيذ البرنامج",
+                    "لا شيء مما سبق"
+                ],
+                correct: 0,
+                explanation: "A variable is a named storage location in memory whose value can be manipulated.",
+                explanation_ar: "المتغير هو مكان محجوز في الذاكرة له اسم وقيمة يمكن أن تتغير أثناء التنفيذ."
+            },
+            {
+                id: 3,
+                text: "The decimal equivalent of (0.111)₂ will be:",
+                text_ar: "المكافئ العشري للرقم الثنائي (0.111)₂ هو:",
+                options: ["0.875", "0.5", "0.25", "0.625"],
+                options_ar: ["0.875", "0.5", "0.25", "0.625"],
+                correct: 0,
+                explanation: "(1 × 0.5) + (1 × 0.25) + (1 × 0.125) = 0.875",
+                explanation_ar: "الحساب: (1 × 0.5) + (1 × 0.25) + (1 × 0.125) = 0.875"
+            },
+            {
+                id: 4,
+                text: "Which of the following is an invalid representation of an algorithm?",
+                text_ar: "أي مما يلي يعتبر تمثيلاً غير صحيح للخوارزمية؟",
+                options: ["Syntax", "Pseudo codes", "Programs", "Flowcharts"],
+                options_ar: ["القواعد النحوية (Syntax)", "الأكواد الزائفة (Pseudo codes)", "البرامج (Programs)", "خرائط التدفق (Flowcharts)"],
+                correct: 0,
+                explanation: "Syntax refers to grammar rules of a language. Algorithms are represented by Flowcharts, Pseudo code, or Programs.",
+                explanation_ar: "القواعد النحوية (Syntax) تخص لغة البرمجة، بينما الخوارزمية تمثل بخرائط التدفق أو الكود الزائف أو البرامج."
+            },
+            {
+                id: 5,
+                text: "If m=10 and n=5, after executing the expression r=((m%n)==0)? ... the value of r is 22.",
+                text_ar: "إذا كانت m=10 و n=5، بعد تنفيذ التعبير الشرطي... فإن قيمة r هي 22.",
+                options: ["True", "False"],
+                options_ar: ["صح", "خطأ"],
+                correct: 1,
+                explanation: "Based on standard arithmetic, getting exactly 22 from inputs 10 and 5 is unlikely in this context. The statement is False.",
+                explanation_ar: "بناءً على العمليات الحسابية البسيطة (ضرب أو جمع)، الوصول للرقم 22 من المدخلات 10 و 5 غير محتمل هنا."
+            },
+            {
+                id: 6,
+                text: "Which lines contain errors in the provided code snippet?",
+                text_ar: "أي الأسطر تحتوي على أخطاء في الكود الموضح؟",
+                code: "int x=10.2 y=z0,\nint x=x+y\nif(z=f)\nCout <<\"Zero\";\nint s-20+10;",
+                options: ["No Errors", "Line 1", "Lines 1, 3", "Lines 1, 3, 5"],
+                options_ar: ["لا توجد أخطاء", "السطر 1", "السطرين 1 و 3", "الأسطر 1 و 3 و 5"],
+                correct: 3,
+                explanation: "Line 1 (syntax/undefined), Line 3 (undefined/logic), Line 5 (typo s-20) all contain errors.",
+                explanation_ar: "السطر 1 (خطأ في بناء الجملة ومتغيرات غير معرفة)، السطر 3 (استخدام = بدل == ومتغيرات غير معرفة)، السطر 5 (خطأ مطبعي)."
+            },
+            {
+                id: 7,
+                text: "What will be the values of n and k after executing the code?",
+                text_ar: "ما هي قيم المتغيرات n و k بعد تنفيذ الكود التالي؟",
+                code: "int n, k=5;\nn = ((100%5==0) ? k-1 : k+1);",
+                options: ["n=5 k=5", "n=4 k=5", "n=6 k=5", "n=6 k=4"],
+                options_ar: ["n=5 k=5", "n=4 k=5", "n=6 k=5", "n=6 k=4"],
+                correct: 1,
+                explanation: "100%5 is 0 (True). Executes true branch: k-1 (5-1=4). So n=4. k remains 5.",
+                explanation_ar: "باقي قسمة 100 على 5 هو 0 (صح). ينفذ الجزء الأول: k-1 (أي 5-1=4). إذن n=4 و k تظل 5."
+            },
+            {
+                id: 8,
+                text: "Which expression is equivalent to x += y*10?",
+                text_ar: "أي تعبير مما يلي يكافئ x += y*10؟",
+                options: ["x = x*(y+10)", "x = x*y+10", "x = x+(y*10)", "x = y*(x+10)"],
+                options_ar: ["x = x*(y+10)", "x = x*y+10", "x = x+(y*10)", "x = y*(x+10)"],
+                correct: 2,
+                explanation: "The += operator adds the right-hand side result to x. x = x + (y*10).",
+                explanation_ar: "المعامل += يقوم بإضافة ناتج الطرف الأيمن كاملاً إلى قيمة x الحالية. أي x = x + (y*10)."
+            },
+            {
+                id: 9,
+                text: "What will be the values of n and x variables after executing:",
+                text_ar: "ما هي قيم n و x بعد تنفيذ الكود التالي؟",
+                code: "int n=5, x;\nx = ++n * n;",
+                options: ["x=25 n=6", "x=36 n=8", "x=25 n=8", "x=36 n=5"],
+                options_ar: ["x=25 n=6", "x=36 n=8", "x=25 n=8", "x=36 n=5"],
+                correct: 1,
+                explanation: "Pre-increment ++n makes n=6. Then 6*6=36. Later lines in the problem increment n further to 8.",
+                explanation_ar: "الزيادة القبلية ++n تجعل n=6. ثم يتم الضرب 6*6=36. (ملاحظة: n تصبح 8 في خطوات لاحقة بالسؤال الأصلي)."
+            },
+            {
+                id: 10,
+                text: "Which statement adds 10 to 'discount' when 'price' is greater than or equal to 600?",
+                text_ar: "أي جملة برمجية تضيف 10 إلى 'discount' عندما يكون 'price' أكبر من أو يساوي 600؟",
+                options: [
+                    "if(price>=600); discount+=10;",
+                    "if(price>600) discount+=10;",
+                    "if(price>=600) discount+=10;",
+                    "if(price<600) discount+=10;"
+                ],
+                options_ar: [
+                    "if(price>=600); discount+=10;",
+                    "if(price>600) discount+=10;",
+                    "if(price>=600) discount+=10;",
+                    "if(price<600) discount+=10;"
+                ],
+                correct: 2,
+                explanation: "Option C correctly uses the >= operator and proper syntax.",
+                explanation_ar: "الخيار C هو الصحيح لأنه يستخدم المعامل >= ولا يضع فاصلة منقوطة بعد الشرط مباشرة."
+            },
+            {
+                id: 11,
+                text: "The octal equivalent of (1100101.001010)₂ is...",
+                text_ar: "المكافئ الثماني للرقم الثنائي (1100101.001010)₂ هو...",
+                options: ["624.12", "145.12", "154.12", "145.21"],
+                options_ar: ["624.12", "145.12", "154.12", "145.21"],
+                correct: 1,
+                explanation: "1100101 -> 001 100 101 -> 1 4 5. Fractional: 001 010 -> 1 2. Result: 145.12",
+                explanation_ar: "بتقسيم الرقم لثلاثيات: الصحيح (001 100 101) = 145، والكسر (001 010) = 12. النتيجة 145.12"
+            },
+            {
+                id: 12,
+                text: "The expression 4*(5+2) is evaluated strictly left to right.",
+                text_ar: "يتم تقييم التعبير 4*(5+2) من اليسار إلى اليمين فقط.",
+                options: ["True", "False"],
+                options_ar: ["صح", "خطأ"],
+                correct: 1,
+                explanation: "False. Parentheses (5+2) are evaluated first due to precedence.",
+                explanation_ar: "خطأ. الأقواس (5+2) لها أولوية التنفيذ قبل الضرب، وليس مجرد الترتيب من اليسار لليمين."
+            },
+            {
+                id: 13,
+                text: "Any algorithm is a program.",
+                text_ar: "أي خوارزمية تعتبر برنامجاً.",
+                options: ["True", "False"],
+                options_ar: ["صح", "خطأ"],
+                correct: 1,
+                explanation: "False. An algorithm is a logical design; a program is the implementation code.",
+                explanation_ar: "خطأ. الخوارزمية هي خطة الحل المنطقية، أما البرنامج فهو التنفيذ الفعلي باستخدام لغة برمجة."
+            },
+            {
+                id: 14,
+                text: "What will be the value of x after executing:",
+                text_ar: "ما هي قيمة x بعد التنفيذ؟",
+                code: "int x=10;\nx += (x>5)&&(x<15) ? 5 : 10;",
+                options: ["10", "15", "20", "Compilation error"],
+                options_ar: ["10", "15", "20", "خطأ ترجمة"],
+                correct: 1,
+                explanation: "Condition is True. Ternary returns 5. x = 10 + 5 = 15.",
+                explanation_ar: "الشرط (x>5 و x<15) صحيح. المعامل الثلاثي يعيد 5. إذن x = 10 + 5 = 15."
+            },
+            {
+                id: 15,
+                text: "Output of the code fragment?",
+                text_ar: "مخرجات الكود التالي؟",
+                code: "int found=0, count=5;\nif (!found || --count==0) cout << 'danger';\ncout << --count;",
+                options: ["danger count=5", "danger count=4", "danger count=3", "count=3"],
+                options_ar: ["danger count=5", "danger count=4", "danger count=3", "count=3"],
+                correct: 1,
+                explanation: "!found is True. OR (||) short-circuits. Prints 'danger'. Next line executes --count (5->4).",
+                explanation_ar: "الشرط !found صحيح. المعامل OR يكتفي بذلك ولا ينفذ الجزء الثاني. يطبع danger. السطر التالي ينقص count لتصبح 4."
+            },
+            {
+                id: 16,
+                text: "Output of the code fragment?",
+                text_ar: "مخرجات الكود التالي؟",
+                code: "int a=10, m=20, n=30, max;\nif(m>n) { max=m; a++; }\nelse max=n; a--;\ncout << a << max;",
+                options: ["a=10 max=30", "a=11 max=30", "a=9 max=30", "a=10 max=20"],
+                options_ar: ["a=10 max=30", "a=11 max=30", "a=9 max=30", "a=10 max=20"],
+                correct: 2,
+                explanation: "m>n is False. Else executes `max=n`. `a--` executes regardless of if/else. a becomes 9.",
+                explanation_ar: "الشرط m>n خطأ. ينفذ else وهي max=n. الأمر a-- خارج الأقواس فينفذ في جميع الأحوال، لتصبح a=9."
+            },
+            {
+                id: 17,
+                text: "Which 'if' statement is equivalent to: n=(x>0)?'Pos':((x<0)?'Neg':'Zero');",
+                text_ar: "أي جملة 'if' تكافئ المعامل الشرطي التالي؟",
+                options: ["Option A", "Option B", "Option C", "Option D"],
+                options_ar: ["الخيار A", "الخيار B", "الخيار C", "الخيار D"],
+                correct: 2,
+                explanation: "Option C correctly maps: if(x>0) Pos, else if(x<0) Neg, else Zero.",
+                explanation_ar: "الخيار C يمثل المنطق الصحيح: إذا كان أكبر من صفر (Pos)، وإلا إذا كان أصغر (Neg)، وإلا (Zero)."
+            },
+            {
+                id: 18,
+                text: "Hexadecimal equivalent of (6532)₈?",
+                text_ar: "المكافئ السداسي عشر للرقم (6532)₈؟",
+                options: ["A01", "A02", "D5A", "DA5"],
+                options_ar: ["A01", "A02", "D5A", "DA5"],
+                correct: 2,
+                explanation: "Octal 6532 -> Binary -> Hex D5A.",
+                explanation_ar: "يتم تحويل الثماني 6532 إلى ثنائي، ثم تجميع البتات أربعات للتحويل للسداسي عشر فتكون النتيجة D5A."
+            },
+            {
+                id: 19,
+                text: "The 2's complement of 11 is:",
+                text_ar: "المتمم الثنائي (2's complement) للرقم 11 هو:",
+                options: ["1011", "0010", "0101", "0100"],
+                options_ar: ["1011", "0010", "0101", "0100"],
+                correct: 0,
+                explanation: "Binary for 11 is 1011.",
+                explanation_ar: "التمثيل الثنائي للرقم 11 هو 1011."
+            },
+            {
+                id: 20,
+                text: "Which operator is incorrect for comparisons?",
+                text_ar: "أي معامل مما يلي غير صحيح للاستخدام في المقارنات؟",
+                options: ["!=", "==", "2", ">"],
+                options_ar: ["!=", "==", "2", ">"],
+                correct: 2,
+                explanation: "'2' is a number, not an operator.",
+                explanation_ar: "الرقم 2 هو قيمة عددية وليس معامل مقارنة منطقي."
+            },
+            {
+                id: 21,
+                text: "Subtracting (001100)₂ from (101001)₂ gives:",
+                text_ar: "طرح (001100)₂ من (101001)₂ يعطي:",
+                options: ["1011101", "011101", "11010101", "11010111"],
+                options_ar: ["1011101", "011101", "11010101", "11010111"],
+                correct: 1,
+                explanation: "41 - 12 = 29 (011101).",
+                explanation_ar: "بالعشري: 41 - 12 = 29. وتمثيل 29 بالثنائي هو 011101."
+            },
+            {
+                id: 22,
+                text: "Output of: int a=10, b=3; cout << a+b/2;",
+                text_ar: "مخرجات: int a=10, b=3; cout << a+b/2;",
+                options: ["6", "11", "11.5", "6.5"],
+                options_ar: ["6", "11", "11.5", "6.5"],
+                correct: 1,
+                explanation: "Integer division: 3/2 = 1. Then 10 + 1 = 11.",
+                explanation_ar: "القسمة تتم أولاً: 3/2 = 1 (لأنها قسمة أعداد صحيحة). ثم 10 + 1 = 11."
+            },
+            {
+                id: 23,
+                text: "Output of: int a=5, b=0; if(a || b && !a)...",
+                text_ar: "مخرجات: int a=5, b=0; if(a || b && !a)...",
+                options: ["No", "Yes", "Error", "Undefined"],
+                options_ar: ["No", "Yes", "Error", "Undefined"],
+                correct: 1,
+                explanation: "Logic evaluates to True. Prints 'Yes'.",
+                explanation_ar: "المنطق يقيم إلى (صح) لأن a=5 (صح). يطبع Yes."
+            },
+            {
+                id: 24,
+                text: "z=x*y+1 and z=x*y++ produce same result for x=1, y=2.",
+                text_ar: "التعبيران z=x*y+1 و z=x*y++ يعطيان نفس النتيجة لـ x=1 و y=2.",
+                options: ["True", "False"],
+                options_ar: ["صح", "خطأ"],
+                correct: 1,
+                explanation: "First gives 3. Second gives 2 (post-increment uses original y).",
+                explanation_ar: "الأول يعطي 3. الثاني يستخدم y الأصلية (2) قبل الزيادة، فالناتج 2. النتيجتان مختلفتان."
+            },
+            {
+                id: 25,
+                text: "Are all statements correct? int total=9; char name=\"C\"; float profit=12.3.12.3;",
+                text_ar: "هل جميع الجمل صحيحة؟ int total=9; char name=\"C\"; float profit=12.3.12.3;",
+                options: ["True", "False"],
+                options_ar: ["صح", "خطأ"],
+                correct: 1,
+                explanation: "False. Syntax errors in char quotes and float format.",
+                explanation_ar: "خطأ. المتغير char يستخدم علامات تنصيص مفردة ' '، والرقم العشري لا يمكن أن يحتوي على علامتين عشريتين."
+            }
+        ];
+
+        let score = 0;
+        let answeredCount = 0;
+        let langState = new Array(questions.length).fill(false);
+
+        // --- 2. Render Functions ---
+        function renderQuestions() {
+            const container = document.getElementById('quiz-container');
+            
+            questions.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'q-card';
+                card.id = `q-card-${index}`;
+                
+                const codeBlock = q.code ? `<pre><code>${q.code}</code></pre>` : '';
+                
+                let optionsHtml = '';
                 q.options.forEach((opt, i) => {
-                    interact += `<button class="opt-btn" onclick="check(this, ${i === q.ans})">${opt}</button>`;
+                    optionsHtml += `<button class="option-btn" id="btn-${index}-${i}" onclick="checkAnswer(${index}, ${i}, this)">${opt}</button>`;
                 });
-                interact += `</div>`;
-            } else {
-                interact = `<div style="background:#f8f9fa; padding:15px; border-radius:10px; text-align:center; color:#7f8c8d;">
-                                <i class="fas fa-pen"></i> سؤال مقالي / كود - اضغط الشرح للإجابة
-                            </div>`;
+
+                card.innerHTML = `
+                    <div class="q-header">
+                        <span class="q-badge">Question ${index + 1}</span>
+                        <button class="translate-btn" onclick="toggleTranslation(${index})">
+                            🌐 Translate / ترجمة
+                        </button>
+                    </div>
+                    <div class="q-text" id="q-text-${index}">${q.text}</div>
+                    ${codeBlock}
+                    <div class="options-grid" id="options-${index}">
+                        ${optionsHtml}
+                    </div>
+                    <button class="toggle-exp-btn" id="exp-btn-${index}" onclick="toggleExplanation(${index})">
+                        👁 Explain Solution
+                    </button>
+                    <div class="explanation-box" id="exp-box-${index}">
+                        <strong>Explanation:</strong> ${q.explanation}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- 3. Translation Logic (Updated for Explanations) ---
+        function toggleTranslation(index) {
+            const isArabic = !langState[index]; 
+            langState[index] = isArabic;
+
+            const q = questions[index];
+            const card = document.getElementById(`q-card-${index}`);
+            const textElem = document.getElementById(`q-text-${index}`);
+            const optsDiv = document.getElementById(`options-${index}`);
+            const buttons = optsDiv.getElementsByTagName('button');
+            const expBox = document.getElementById(`exp-box-${index}`);
+
+            // 1. Toggle Text
+            textElem.innerText = isArabic ? q.text_ar : q.text;
+
+            // 2. Toggle Options
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].innerText = isArabic ? q.options_ar[i] : q.options[i];
             }
 
-            // Actions
-            let actions = `<div class="actions">
-                                <button class="act-btn btn-exp" onclick="toggleExp('exp-${containerId}-${idx}')">
-                                    <i class="fas fa-eye"></i> الشرح
-                                </button>
-                                <button class="act-btn btn-trans" onclick="toggleLang('${containerId}-${idx}')">
-                                    <i class="fas fa-language"></i> ترجمة
-                                </button>
-                           </div>
-                           <div id="exp-${containerId}-${idx}" class="explanation">
-                                <strong>Answer / Explanation:</strong><br>
-                                ${q.exp}
-                           </div>`;
-
-            card.innerHTML = meta + content + interact + actions;
-            container.appendChild(card);
-        });
-    }
-
-    // --- 3. LOGIC ---
-    function showSection(id) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        
-        if(id === 'repeated') {
-            document.querySelectorAll('.tab')[0].classList.add('active');
-            document.getElementById('sec-repeated').classList.add('active');
-        } else {
-            document.querySelectorAll('.tab')[1].classList.add('active');
-            document.getElementById('sec-unique').classList.add('active');
-        }
-    }
-
-    function check(btn, isCorrect) {
-        const parent = btn.parentElement;
-        parent.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
-        
-        if(isCorrect) {
-            btn.classList.add('correct');
-            btn.innerHTML += ` <i class="fas fa-check"></i>`;
-        } else {
-            btn.classList.add('wrong');
-            btn.innerHTML += ` <i class="fas fa-times"></i>`;
-        }
-        // Auto open explanation
-        const card = btn.closest('.q-card');
-        card.querySelector('.explanation').style.display = 'block';
-    }
-
-    function toggleExp(id) {
-        const el = document.getElementById(id);
-        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-    }
-
-    function toggleLang(idSuffix) {
-        const en = document.getElementById(`en-${idSuffix}`);
-        const ar = document.getElementById(`ar-${idSuffix}`);
-        if(en.style.display === 'none') {
-            en.style.display = 'block'; ar.style.display = 'none';
-        } else {
-            en.style.display = 'none'; ar.style.display = 'block';
-        }
-    }
-
-    function filterYear(year) {
-        document.querySelectorAll('.year-filter').forEach(f => f.classList.remove('active'));
-        event.target.classList.add('active');
-
-        const list = document.getElementById('list-unique');
-        const cards = list.getElementsByClassName('q-card');
-
-        for(let card of cards) {
-            if(year === 'all' || card.dataset.year.includes(year)) {
-                card.style.display = 'block';
+            // 3. Toggle Explanation Text
+            if (isArabic) {
+                expBox.innerHTML = `<strong>التفسير:</strong> ${q.explanation_ar}`;
             } else {
-                card.style.display = 'none';
+                expBox.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+            }
+
+            // 4. Toggle Styles (RTL)
+            if (isArabic) {
+                card.classList.add('rtl-mode');
+                textElem.classList.add('rtl-mode');
+                for (let btn of buttons) {
+                    btn.classList.add('rtl-mode');
+                }
+            } else {
+                card.classList.remove('rtl-mode');
+                textElem.classList.remove('rtl-mode');
+                for (let btn of buttons) {
+                    btn.classList.remove('rtl-mode');
+                }
             }
         }
-    }
 
-    // Start
-    init();
+        // --- 4. Interaction Logic ---
+        function checkAnswer(qIndex, selectedOptIndex, btnElement) {
+            const q = questions[qIndex];
+            const optionsDiv = document.getElementById(`options-${qIndex}`);
+            const buttons = optionsDiv.getElementsByTagName('button');
+            const expBtn = document.getElementById(`exp-btn-${qIndex}`);
 
-</script>
+            for (let btn of buttons) {
+                btn.disabled = true;
+            }
+
+            if (selectedOptIndex === q.correct) {
+                btnElement.classList.add('correct');
+                score++;
+            } else {
+                btnElement.classList.add('wrong');
+                buttons[q.correct].classList.add('correct');
+            }
+
+            expBtn.style.visibility = 'visible';
+            answeredCount++;
+            updateStats();
+        }
+
+        function updateStats() {
+            const total = questions.length;
+            const percentage = Math.round((score / total) * 100);
+            document.getElementById('progress-text').innerText = `${answeredCount} / ${total}`;
+            document.getElementById('score-text').innerText = `${percentage}%`;
+        }
+
+        function toggleExplanation(index) {
+            const box = document.getElementById(`exp-box-${index}`);
+            if (box.style.display === 'block') {
+                box.style.display = 'none';
+            } else {
+                box.style.display = 'block';
+            }
+        }
+
+        function toggleModelAnswer() {
+            const box = document.getElementById('model-answer-box');
+            box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+        }
+
+        window.onload = renderQuestions;
+
+    </script>
 </body>
 </html>
